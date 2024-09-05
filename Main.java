@@ -1,20 +1,37 @@
+
+import java.util.Scanner;
+
 public class Main {
 
 	public static void main(String[] args) {
-		TipoFrete f1 = new FreteNormal();
-		f1.peso = 11;
-		f1.fragilidade = "fragil";
-		f1.distancia = 100;
-		Frete frete = new Frete(f1);
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("Escolha o tipo de frete:");
+		System.out.println("1. Frete Normal");
+		System.out.println("2. Frete Sedex");
+		int escolha = scanner.nextInt();
+		TipoFrete tipoFrete;
 
-		TipoFrete f2 = new FreteSedex();
-		f2.peso = 11;
-		f2.fragilidade = "fragil";
-		f2.distancia = 100;
-		Frete frete2 = new Frete(f2);
+		if (escolha == 1) {
+			tipoFrete = new FreteNormal();
+		} else if (escolha == 2) {
+			tipoFrete = new FreteSedex();
+		} else {
+			System.out.println("Opção inválida.");
+			scanner.close();
+			return;
+		}
 
-		frete2.calculaFrete();
-		frete.calculaFrete();
+		System.out.println("Informe o peso do produto (em kg):");
+		tipoFrete.peso = scanner.nextDouble();
+		System.out.println("O produto é frágil? (sim/nao):");
+		String fragil = scanner.next();
+		tipoFrete.fragilidade = fragil.equalsIgnoreCase("sim") ? "fragil" : "nao";
+		System.out.println("Informe a distância para o frete (em km):");
+		tipoFrete.distancia = scanner.nextDouble();
+		Frete frete = new Frete(tipoFrete);
+		double valorFrete = frete.calculaFrete();
+		System.out.println("O valor do frete é: R$ " + valorFrete);
 
+		scanner.close();
 	}
 }
